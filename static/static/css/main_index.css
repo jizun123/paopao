@@ -1,0 +1,466 @@
+/*头部样式*/
+#top {
+    width: 1200px;
+    min-height: 50px;
+    margin: 30px auto;
+    /*border: 1px solid red;*/
+}
+
+/*修改logo样式*/
+#top #logo img {
+    width: 168px;
+    /*10px圆角*/
+    border-radius: 10px;
+}
+
+/*登录注册*/
+#top ul {
+    list-style: none;
+    color: #888;
+    text-align: center;
+}
+
+#top ul li {
+    float: left;
+    line-height: 50px;
+    padding: 0 15px;
+}
+
+#top ul li a img {
+    vertical-align: middle;
+}
+
+/*对 | 位置微调*/
+#top ul li span {
+    position: relative;
+    right: -15px;
+}
+
+
+
+/****************************************************************/
+/*导航栏*/
+#nav {
+    margin: 0 auto;
+    width: 1200px;
+    min-height: 50px;
+    border-radius: 5px;
+    background-color: crimson;
+}
+
+#nav-ul {
+    margin-left: 54px;
+}
+
+/*导航栏列表*/
+#nav-ul li {
+    display: block;
+    float: left;
+    text-decoration: none;
+    width: 210px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+
+}
+
+#nav-ul li a {
+    color: #f1f3f4;
+    font: 18px YouYuan , Arial, Helvetica, sans-serif,"simhei";
+}
+
+#nav-ul li a:hover {
+    color: black;
+}
+
+/* 首页下拉菜单 */
+#index {
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#index li {
+    float: none;
+}
+
+#index li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #index {
+    opacity: 1;
+    height: 250px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#index li:hover {
+    background-color: crimson;
+}
+
+/* 行情下拉菜单 */
+#market {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#market li {
+    float: none;
+}
+
+#market li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #market {
+    opacity: 1;
+    height: 250px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#market li:hover {
+    background-color: crimson;
+}
+
+/* 自选下拉菜单 */
+#choose {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#choose li {
+    float: none;
+}
+
+#choose li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #choose {
+    opacity: 1;
+    height: 150px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#choose li:hover {
+    background-color: crimson;
+}
+
+/* 交易下拉菜单 */
+#transaction {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#transaction li {
+    float: none;
+}
+
+#transaction li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #transaction {
+    opacity: 1;
+    height: 150px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#transaction li:hover {
+    background-color: crimson;
+}
+
+/* 理财下拉菜单 */
+#manage {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#manage li {
+    float: none;
+}
+
+#manage li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #manage {
+    opacity: 1;
+    height: 100px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#manage li:hover {
+    background-color: crimson;
+}
+
+/* 账号下拉菜单 */
+#user {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    background-color: #f1f3f4;
+}
+
+#user li {
+    float: none;
+}
+
+#user li a {
+    font-size: 16px;
+    color: black;
+}
+
+#nav-ul li:hover #user {
+    opacity: 1;
+    height: 200px;
+    transition: all 1s ease;
+    position: absolute;
+    z-index: 999;
+}
+
+#user li:hover {
+    background-color: crimson;
+}
+
+/**************************************************************/
+/* 主体内容 三列 */
+#main {
+    margin: 10px auto;
+    width: 1200px;
+    min-height: 880px;
+}
+
+#main li {
+    overflow: hidden;
+}
+
+#main a {
+    font-size: 16px;
+    color: black;
+    overflow: hidden;
+}
+
+#main a:hover {
+    text-decoration: underline;
+}
+
+/*第一行*/
+/*中间要闻*/
+#main .finance {
+    margin: 20px auto 0 20px;
+    width: 400px;
+    min-height: 250px;
+}
+
+#main .finance ul li {
+    list-style: none;
+    min-height: 41px;
+    line-height: 41px;
+}
+
+/*右边排行标题*/
+.rank {
+    margin: 20px auto 0 15px;
+    width: 330px;
+    min-height: 250px;
+}
+
+.rank_title {
+    height: 38px;
+    font-size: 16px;
+    background-color: #ccca;
+}
+
+.rank_item {
+    float: left;
+    padding: 0 10px;
+    width: 144px;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer; /* 鼠标移动变小手 */
+}
+
+/* 右边排行内容 */
+.rank_content {
+    margin-top: 2px;
+    min-height: 210px;
+    border: 1px solid #cccccc;
+    border-top: none;
+}
+
+.rank_content ul {
+    margin-left: 10px;
+}
+
+.rank_content ul li {
+    height: 35px;
+    list-style: none;
+    line-height: 35px;
+}
+
+#main .rank .rank_content a {
+    color: black;
+    font-size: 14px;
+}
+
+.rank_content span {
+    margin-right: 5px;
+}
+
+/*第二行*/
+/*左边新闻*/
+.news_left {
+    margin: 20px auto 0 auto;
+    width: 430px;
+    height: 540px;
+}
+
+/*中间新闻*/
+.news_middle {
+    margin: 20px auto 0 20px;
+    width: 400px;
+    height: 540px;
+}
+
+/*左边/中间新闻标题*/
+.new_top {
+    height: 45px;
+    font-size: 22px;
+    line-height: 65px;
+    border-bottom: 3px solid #cccccc;
+}
+
+/*左边新闻内容*/
+.news_left ul {
+    list-style: none;
+    margin-left: 10px;
+}
+
+.news_left li {
+    min-height: 34px;
+    line-height: 34px;
+}
+
+/*中间新闻内容*/
+.news_middle ul {
+    list-style: none;
+    margin-left: 10px;
+}
+
+.news_middle li {
+    min-height: 34px;
+    line-height: 34px;
+}
+
+.title_stock {
+    padding: 0 10px;
+    line-height: 38px;
+    cursor: pointer;
+}
+
+.rank_stock {
+    margin-top: 2px;
+    min-height: 210px;
+    border: 1px solid #cccccc;
+    border-top: none;
+}
+
+.rank_stock table {
+    margin-left: 10px;
+}
+
+.rank_stock tbody tr td {
+    color: crimson;
+}
+
+.rank_stock td {
+    width: 80px;
+    font-size: 14px;
+    min-height: 32px;
+    line-height: 32px;
+}
+
+#main .rank .rank_stock td a {
+    font-size: 14px;
+}
+
+/* ***************************************************** */
+#link {
+    margin: 0 auto;
+    width: 1200px;
+    min-height: 50px;
+}
+
+#link ul {
+    margin: 0 auto;
+    width: 540px;
+    min-height: 50px;
+    list-style: none;
+    color: #888888;
+}
+
+#link ul li {
+    float: left;
+    line-height: 50px;
+    padding: 0 15px;
+}
+
+#link ul li a {
+    text-align: center;
+    color: #888888;
+}
+
+#link ul li span {
+    position: relative;
+    right: -15px;
+}
+

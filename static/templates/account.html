@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>泡泡金融-开户</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../static/css/account.css"/>
+    <link rel="icon" href="../static/images/index/py.ico">
+    <script src="../static/js/header.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script src="../static/layui/layer.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <script src="../static/js/index.js"></script>
+</head>
+<body>
+<header id="header"></header>
+<div class="main">
+    <form class="layui-form" action="">
+        <div class="layui-form-item" style="margin-top:100px;">
+            <label class="layui-form-label"><b>姓名*：</b></label>
+            <div class="layui-input-block form_width">
+                <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入姓名"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item form_ver">
+            <label class="layui-form-label"><b>身份证号*：</b></label>
+            <div class="layui-input-block form_width">
+                <input type="text" name="id_card" id="id_card" required lay-verify="required" placeholder="请输入身份证号"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item form_ver">
+            <label class="layui-form-label"><b>所属银行*：</b></label>
+            <div id="sel" class="layui-input-block form_width">
+               <select name="bank_id" id="bank_id" lay-verify="required">
+                    <option value="100">请选择</option>
+                    <option value="0">中国银行</option>
+                    <option value="1">工商银行</option>
+                    <option value="2">建设银行</option>
+                    <option value="3">农业银行</option>
+                    <option value="4">招商银行</option>
+                    <option value="5">交通银行</option>
+                    <option value="6">浦发银行</option>
+                    <option value="7">渣打银行</option>
+                    <option value="8">广发银行</option>
+                    <option value="9">兴业银行</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item form_ver">
+            <label class="layui-form-label"><b>银行卡号*：</b></label>
+            <div class="layui-input-block form_width">
+                <input type="text" name="bank_no" id="bank_no" required lay-verify="required" placeholder="请输入银行卡号"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text form_ver">
+            <label class="layui-form-label"><b>居住地址*：</b></label>
+            <div class="layui-input-block form_width">
+                <textarea name="addr" id="addr" placeholder="请输入内容" required lay-verify="required" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item form_ver">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="submit" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset"  id="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var id_pattern = /\d{17}[\d|x]|\d{15}/;
+            if (!id_pattern.test(data.field.id_card)) {
+                layer.msg('身份证号码有误,请重新输入。', {
+                    offset: '100px',
+                    anim: 2
+                });
+                return false
+            }
+            var bank_pattern = /\d{19}|\d{16}/;
+            if (!id_pattern.test(data.field.bank_no)) {
+                layer.msg('银行卡号输入有误,请重新输入。', {
+                    offset: '100px',
+                    anim: 2
+                });
+                return false
+            }
+            if (open_account(data.field)){
+                return true
+            }else{
+                return false
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+<script>
+      $(function () {
+            //获取开户信息
+             $.ajax({
+                type: "GET",
+                url: baseUrl + "/v1/users/account",
+                contentType: 'application/json;charset=utf-8',
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.code == 200) {
+                        //如果已经开户,则所有属性都是只读.
+                        if(response.data.is_open==1){
+                           $('#name').val(response.data.name)
+                           $('#id_card').val(response.data.id)
+                           $('#bank_id').val(response.data.bank_id)
+                           $('#bank_no').val(response.data.bank_no)
+                           $('#addr').val(response.data.addr)
+                           $("#bank_id").attr('disabled',true);
+                           $("#name").attr('disabled',true);
+                           $("#id_card").attr('disabled',true);
+                           $("#bank_no").attr('disabled',true);
+                           $("#addr").attr('disabled',true);
+                           $("#submit").attr('disabled',true);
+                           $("#reset").attr('disabled',true);
+                       }
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    return false
+                }
+            });
+
+      })
+function open_account(data){
+              $.ajax({
+                type: "POST",
+                url: baseUrl + "/v1/users/account",
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({'data': data}),
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+                },
+                success: function (response) {
+                    alert(response.code)
+                    if (response.code == 200) {
+                        layer.msg('开户成功!', {
+                            offset: '100px',
+                            anim: 2
+                        });
+                        return true
+                    } else {
+                        layer.msg(response.error, {
+                            offset: '100px',
+                            anim: 2
+                        });
+                        return false
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    return false
+                }
+            });
+
+    }
+
+</script>

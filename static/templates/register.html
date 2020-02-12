@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>泡泡金融-注册页面</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link href="../static/css/animate.css" rel="Stylesheet"/>
+    <link href="../static/css/login.css" rel="stylesheet"/>
+    <link rel="icon" href="../static/images/index/py.ico">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <script src="../static/js/init.js"></script>
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script src="../static/layui/layer.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+
+<body>
+<!-- 页面顶部-->
+<header id="top">
+    <div class="top">
+        <a href="index.html">
+            <img src="../static/images/header/logo.png" alt=""/>
+        </a>
+        <span>欢迎注册</span>
+    </div>
+</header>
+<div class="parent">
+    <!--<video src="audio/snow.mp4" width="100%" autoplay loop muted></video>-->
+    <div class="container">
+        <div class="panel rt">
+            <div id="form-register">
+                <div class="txt">
+                    <p>新用户注册
+                        <span>
+                <a href="login.html">直接登录</a>
+              </span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="uname">用户名：</label>
+                    <input autocomplete required minlength="6" maxlength="9" type="text" placeholder="请输入用户名" autofocus
+                           name="uname"
+                           id="uname"/>
+                    <span class="msg-default">用户名长度在6到9位之间</span>
+                </div>
+                <div class="form-group">
+                    <label for="upwd">登录密码：</label>
+                    <input required type="password" minlength="6" maxlength="12" placeholder="请输入密码" name="upwd"
+                           autofocus id="upwd"/>
+                    <span class="msg-default hidden">密码长度在6到12位之间</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱：</label>
+                    <input autocomplete required type="email" placeholder="请输入邮箱地址" value="" name="email" id="email"/>
+                    <span class="msg-default hidden">请输入合法的邮箱地址</span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">手机号：</label>
+                    <input id="phone" name="phone" placeholder="请输入您的手机号"
+                           pattern="(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$"
+                           required type="text" value=""/>
+                    <span class="msg-default hidden">请输入合法的手机号</span>
+                </div>
+                <div class="form-group">
+                    <label for="code">验证码：</label>
+                    <input type="code" placeholder="请输入验证码" value="" name="code" id="code"/>
+                    <input id="sendSmS" type="button" value="获取验证码" onclick="sendMessage()"
+                           style="width:180px;display:inline;"/>
+                    <span class="msg-default hidden"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <input type="button" value="提交注册信息" id="bt-register"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页面底部-->
+<div class="foot_bj">
+    <div id="foot">
+        <div class="lf">
+            <p class="footer1"><img src="../static/images/footer/logo.png" alt="" class=" footLogo"/></p>
+        </div>
+        <div class="download" style="float: right">
+            <img src="../static/images/footer/erweima.png">
+        </div>
+        <div class="service" style="float: right">
+            <p>泡泡金融客户端</p>
+            <img src="../static/images/footer/ios.png" class="lf">
+            <img src="../static/images/footer/android.png" alt="" class="lf"/>
+        </div>
+        <!-- 页面底部-备案号 #footer -->
+        <div class="record">
+            &copy;2019泡泡金融集团有限公司 版权所有 京ICP证xxxxxxxxxxx
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script>
+    /**
+      * @let {Array} validation [验证结果集合]
+      */
+    $('#bt-register').click(function () {
+      /**
+       * @let {Array} validation [验证结果结合]
+       */
+      $.ajax({
+        type: "post",
+        url: baseUrl+"/v1/users",
+        datatype: "json",
+        data: JSON.stringify({
+          "uname": $('#uname').val(),
+          "password": $('#upwd').val(),
+          "phone": $('#phone').val(),
+          "email": $('#email').val(),
+          "code": $('#code').val()
+        }),
+        success: function (response) { //成功的回调函数
+            if (response.code === 200){
+                window.localStorage.setItem('paopao_token', response.data.token);
+                window.localStorage.setItem('paopao_user', response.username);
+                alert('注册成功！');
+                window.location.href = 'index.html';
+            }else {
+             layer.msg(response.error, {
+                        offset: '100px',
+                        anim: 2
+                    });
+            }
+        },
+        error: function (e) {
+          alert(response);
+        }
+      });
+    })
+
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+
+function sendMessage() {
+      var phone = $('#phone').val()
+      pattern=/(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/
+      if (pattern.test(phone)==false){
+        layer.msg('请输入正确的手机号', {
+                        offset: '100px',
+                        anim: 2
+                    });
+      return
+      }
+ 　curCount = count;
+　　//设置button效果，开始计时
+    console.log($("#sendSmS"))
+   $("#sendSmS").attr("disabled", "true");
+   $("#sendSmS").val("请在" + curCount + "秒内输入验证码");
+   InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+　　 //向后台发送处理数据
+      $.ajax({
+        type: 'post',
+        data:JSON.stringify({'phone':phone}),
+        url:baseUrl+"/v1/users/code",
+        datatype: 'json',
+        success:function (data) {
+          if(data.code=='200'){
+             layer.msg('验证码发送成功', {
+                        offset: '100px',
+                        anim: 2
+                    });
+          }else {
+                    layer.msg(data.msg, {
+                        offset: '100px',
+                        anim: 2
+                    });
+          }
+        },
+        error:function (e) {
+          alert('内部错误，请联系管理员')
+        }
+      })
+}
+
+//timer处理函数
+function SetRemainTime() {
+      if (curCount == 0) {
+        window.clearInterval(InterValObj);//停止计时器
+        $("#sendSmS").removeAttr("disabled");//启用按钮
+        $("#sendSmS").val("重新发送验证码");
+      }
+      else {
+        curCount--;
+        $("#sendSmS").val("请在" + curCount + "秒内输入验证码");
+      }
+    }
+
+
+
+</script>
+</body>
+
+</html>

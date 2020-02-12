@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>泡泡金融-订单</title>
+    <link rel="stylesheet" href="../static/css/order_fian.css"/>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <link rel="icon" href="../static/images/index/py.ico">
+    <script src="../static/js/header.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script src="../static/layui/layer.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <script src="../static/js/index.js"></script>
+</head>
+<body>
+<header id="header"></header>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this" style="width: 50%">未支付</li>
+        <li style="width: 50%">已完成</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show" style="margin: 50px;">
+            <div style="width:85%;margin: auto">
+                <table id="funds_unfinished" class="order_tab" style="width: 600px;" border="0" cellspacing="0"
+                       cellpadding="2">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="layui-tab-item" style="margin: 50px;">
+            <div style="width:85%;margin: auto">
+                <table id="funds_finished" class="order_tab" style="width: 600px;" border="0" cellspacing="0"
+                       cellpadding="2">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    $(function () {
+        $.ajax({
+            url: baseUrl + '/v1/financing/order?type=0',
+            type: 'get',
+            contentType: 'application/json',
+            dataType: 'json',
+            beforeSend: function (request) {
+                request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+            },
+            success: function (response) {
+                $("#funds_finished").html("")
+                html_head = ' <thead>' +
+                    '    <tr>' +
+                    '            <td valign="top" width="50">订单号</td>' +
+                    '            <td valign="top" width="50">代码</td>' +
+                    '            <td valign="top" width="50">简称</td>' +
+                    '            <td valign="top" width="50">价格</td>' +
+                    '            <td valign="top" width="50">订单状态</td>' +
+                    '            <td valign="top" width="50">订单类型</td>' +
+                    '        </tr>' +
+                    '    </thead>'
+                $("#funds_finished").append(html_head)
+                for (var i = 0; i < response.data_fin.length; i++) {
+                    obj = response.data_fin[i]
+                    html =
+                        ' <tr>' +
+                        '           <td>' + obj.id + '</td>' +
+                        '           <td>' + obj.code + '</td>' +
+                        '           <td>' + obj.name + '</td>' +
+                        '           <td>' + obj.price + '</td>' +
+                        '           <td>已完成</td>' +
+                        '           <td>基金</td>' +
+                        ' </tr>'
+                    $("#funds_finished").append(html)
+                }
+
+                $("#funds_unfinished").html("")
+                html_head = ' <thead>' +
+                    '    <tr>' +
+                    '            <td valign="top" width="50">订单号</td>' +
+                    '            <td valign="top" width="50">代码</td>' +
+                    '            <td valign="top" width="50">简称</td>' +
+                    '            <td valign="top" width="50">价格</td>' +
+                    '            <td valign="top" width="50">订单状态</td>' +
+                    '            <td valign="top" width="50">订单类型</td>' +
+                    '        </tr>' +
+                    '    </thead>'
+                $("#funds_unfinished").append(html_head)
+                for (var i = 0; i < response.data_unf.length; i++) {
+                    obj = response.data_unf[i]
+                    html =
+                        ' <tr>' +
+                        '           <td>' + obj.id + '</td>' +
+                        '           <td>' + obj.code + '</td>' +
+                        '           <td>' + obj.name + '</td>' +
+                        '           <td>' + obj.price + '</td>' +
+                        '           <td>未完成</td>' +
+                        '           <td>基金</td>' +
+                        ' </tr>'
+                    $("#funds_unfinished").append(html)
+                }
+
+            }
+        })
+    })
+
+</script>
+
+</html>

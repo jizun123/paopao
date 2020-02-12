@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*头部样式*/
+        #top {
+            width: 1200px;
+            min-height: 50px;
+            margin: 30px auto;
+            /*border: 1px solid red;*/
+        }
+
+        /*修改logo样式*/
+        #top #logo img {
+            width: 168px;
+            /*10px圆角*/
+            border-radius: 10px;
+        }
+
+        /*登录注册*/
+        #top ul {
+            list-style: none;
+            color: #888;
+            text-align: center;
+        }
+
+        #top ul li {
+            float: left;
+            line-height: 50px;
+            padding: 0 15px;
+        }
+
+        #top ul li a img {
+            vertical-align: middle;
+        }
+
+        /*对 | 位置微调*/
+        #top ul li span {
+            position: relative;
+            right: -15px;
+        }
+
+        #top ul li a {
+            color: #888888;
+        }
+        .top_right{
+           float: right;
+            color:#888888;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<!-- 头部顶部 -->
+<div id="top">
+    <!-- logo图标 -->
+    <div id="logo" class="lf">
+        <a href="#">
+            <img src="../static/images/header/logo.png" height="50px" alt="logo">
+        </a>
+        <div class="top_right">
+            <a href="#">注册</a>
+        <span> | </span>
+        <a href="#">登录</a></div>
+    </div>
+</body>
+</html>

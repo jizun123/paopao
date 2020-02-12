@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付页面</title>
+     <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script>
+        var order_id ='20200107212'
+        var post_data = {"trade_no":order_id,'amount_price':19.82}
+        $(function () {
+            $('#btn').click(function () {
+                $.ajax({
+                    url:'http://127.0.0.1:8000/v1/carts/save',
+                    type:'post',
+                    contentType:'application/json',
+                    dataType:'json',
+                    data:JSON.stringify(post_data),
+                    success:function(data){
+                        //获取支付宝跳转地址
+                        console.log(data)
+                        //window.location.href = data.pay_url
+                    }
+                })
+            })
+        })
+
+    </script>
+</head>
+<body>
+
+<p>当前订单号为 xxxxx</p>
+<p>购买商品为 华为xxx手机</p>
+<p>价格 1000元</p>
+
+<button id="btn">点击支付</button>
+
+
+</body>
+</html>

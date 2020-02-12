@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" type="text/css">
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layer.js"></script>
+</head>
+<body>
+
+<button id="select_btn" class="button_blue" onclick="clerk()">加自选</button>
+
+</body>
+
+
+<script>
+
+  function clerk(){
+layer.msg('大部分参数都是可以公用的<br>合理搭配，展示不一样的风格', {
+        time: 20000, //20s后自动关闭
+        btn: ['明白了', '知道了', '哦']
+      });
+    alert('OKOK')
+  }
+
+    </script>
+
+</html>

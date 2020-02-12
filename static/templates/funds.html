@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>泡泡金融-基金</title>
+    <link rel="stylesheet" href="../static/css/cart.css"/>
+    <link rel="stylesheet" href="../static/css/header.css"/>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <link rel="icon" href="../static/images/index/py.ico">
+    <script src="../static/js/header.js"></script>
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="../static/layui/layer.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <script src="../static/js/index.js"></script>
+</head>
+
+<body>
+<header id="header"></header>
+
+ <div class="search bar7">
+        <div id="form">
+            <input type="text" id ="search_input" placeholder="请输入基金代码或基金简称...">
+            <button  id="search_btn" onclick="search_funds()"></button>
+        </div>
+ </div>
+<div style=";
+    padding: 7px 0;
+    width: 90%;
+    margin: 0 auto;
+    ">
+    <table id="box-table-a" summary="Employee Pay Sheet">
+        <tbody id="box-table-a-tbody">
+        </tbody>
+    </table>
+    <div id="page" class="page_div"></div>
+</div>
+
+
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script src="../static/js/index.js"></script>
+<script src="../static/js/cart.js"></script>
+<script src="../static/js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="../static/js/pageMe.js"></script>
+</body>
+
+<script>
+
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: baseUrl + "/v1/financing/funds/total",
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+
+            success: function (response) {
+                if (response.code == 200) {
+                    request_funds(1)
+                    $("#page").paging({
+                        pageNum: 1, // 当前页面
+                        totalNum: Math.ceil(response.total / 10), // 总页码
+                        totalList: response.total, // 记录总数量
+                        callback: function (num) { //回调函数
+                            if (response.code == 200) {
+                                request_funds(num)
+                            } else {
+                                alert(response.error)
+                            }
+                        }
+                    });
+                } else {
+                    alert(response.error)
+                }
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    });
+
+
+   function search_funds(){
+       content =  $("#search_input").val()
+        $.ajax({
+            type: "GET",
+            url: baseUrl + "/v1/financing/funds/total?content="+content,
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+
+            success: function (response) {
+                if (response.code == 200) {
+                     request_funds(1)
+                    $("#page").paging({
+                        pageNum: 1, // 当前页面
+                        totalNum: Math.ceil(response.total / 10), // 总页码
+                        totalList: response.total, // 记录总数量
+                        callback: function (num) { //回调函数
+                            if (response.code == 200) {
+                                request_funds(num)
+                            } else {
+                                alert(response.error)
+                            }
+                        }
+                    });
+                } else {
+                    alert(response.error)
+                }
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    }
+
+    function request_funds(page_num) {
+     content =  $("#search_input").val()
+        $.ajax({
+            type: "GET",
+            url: baseUrl + "/v1/financing/funds/GET/?page_num=" + page_num+"&content="+content,
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    $("#box-table-a").html("")
+                    html_head = ' <thead>' +
+                        '    <tr>' +
+                        '            <th scope="col" style="width: 50px">序号</th>' +
+                        '            <th scope="col">基金代码</th>' +
+                        '            <th scope="col">基金简称</th>' +
+                        '            <th scope="col">累计净值</th>' +
+                        '            <th scope="col">日增长值</th>' +
+                        '            <th scope="col">日增长率</th>' +
+                        '            <th scope="col">申购状态</th>' +
+                        '            <th scope="col" style="width:50px;">购买</th>' +
+                        '        </tr>' +
+                        '    </thead>'
+                    $("#box-table-a").append(html_head)
+                    for (var i = 0; i < response.data.length; i++) {
+                        obj = response.data[i]
+                        html =
+                            ' <tr>' +
+                            '           <td>' + (obj.page_no + i + 1) + '</td>' +
+                            '           <td class="obj_id">' + obj.id + '</td>' +
+                            '           <td>' + obj.name + '</td>' +
+                            '           <td>' + obj.accu + '</td>' +
+                            '           <td>' + obj.day_val + '</td>' +
+                            '           <td>' + obj.day_rate + '</td>' +
+                            '           <td>' + obj.year_rate + '%</td>' +
+                            '           <td><i class="layui-icon layui-icon-add-circle-fine" style="font-size: 30px; color:#339;" onclick="add_func(this)"></i></td>'
+                        ' </tr>'
+                        $("#box-table-a").append(html)
+                    }
+                } else {
+                    alert(response.error)
+                }
+
+
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    }
+
+    function add_func(e) {
+        var funds_id = $(e).closest("tr").find("td").eq(1).text()
+        let regax = /^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$/
+        layer.prompt({title: '请输入购买金额(元)', value: 100000.00, formType: 0}, function (text, index) {
+            if (regax.test(text)) {
+                layer.closeAll()
+                var datas = {}
+                datas.id = funds_id
+                datas.price = text
+                datas.type= 0
+                create_order(datas)
+            } else {
+                layer.msg('您输入的金额有误!');
+            }
+        });
+    }
+
+    function create_order(datas) {
+        console.log(datas)
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "/v1/financing/order",
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(datas),
+            dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+            },
+            success: function (response) {
+                if (response.code == 200) {
+                    pay_funds(response.data.order_id,response.data.order_price)
+                } else {
+                    alert(response.error)
+                }
+
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    }
+    function pay_funds(order_id, price) {
+
+        var post_data = {"trade_no": order_id, 'amount_price': price,'return_url':'static/templates/funds.html'}
+        $.ajax({
+            url: baseUrl + '/v1/payment/jump',
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(post_data), beforeSend: function (request) {
+                request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+            },
+            success: function (data) {
+                //获取支付宝跳转地址
+                window.location.href = data.pay_url
+            }
+        })
+
+    }
+
+</script>
+
+
+</html>

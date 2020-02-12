@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>泡泡金融-自选</title>
+    <link rel="stylesheet" href="../static/css/stock_carts.css">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../static/css/main_index.css">
+    <link rel="stylesheet" href="../static/css/cart.css" />
+    <link rel="stylesheet" href="../static/css/header.css"/>
+    <link rel="icon" href="../static/images/index/py.ico">
+    <script src="../static/js/init.js"></script>
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/stock_carts.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <script src="../static/js/index.js"></script>
+
+</head>
+<body>
+    <header id="header"></header>
+    <div style=";
+    padding: 7px 0;
+    width: 90%;
+    margin: 0 auto;
+    ">
+    <div id="balanceBox" class="con">
+        <ul class="cont_tit"> 
+            <li style="width:21%;">股票简称</li>
+            <li style="width:17%;">股票代码</li>
+            <li style="width:13%;">股票现价(元)</li>
+            <li style="width:17%;">数量</li>
+            <li style="width:17%;">股票合计</li>
+            <li style="width:10%;">操作</li>
+        </ul>
+        <ul id="prolist">
+        </ul>
+    </div>
+    <div id="totalBox" class="con">
+        <input type="checkbox" class="totalcheck"/>
+        <label for="" style="float:left;">全选</label>
+        <label class="pldel" style="margin-left:20px;">批量删除</label>
+        <div class="total_r">
+            <p>已选择<span style="color:#e4393c;">0</span>股</p>
+            <p>总价：<b style="color:#e4393c;">0.00</b></p>
+            <button id="pay_button">去结算</button>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

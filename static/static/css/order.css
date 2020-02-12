@@ -1,0 +1,54 @@
+#banner{
+    margin: 0 auto;
+    width: 1200px;
+    min-height: 50px;
+}
+/*主体标题*/
+#banner .nav{
+    min-height: 36px;
+    overflow: hidden;
+    text-align: center;
+    line-height: 36px;
+    background-color: #ccca;
+}
+#banner .nav ul{
+    list-style: none;
+}
+#banner .nav li{
+    width: 200px;
+    min-height: 36px;
+    padding: 5px 0;
+    float: left;
+    font-size: 16px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+}
+#banner .nav li:hover{
+    font-weight: bold;
+    border-bottom: 3px solid blue;
+}
+.active{
+    background-color: aquamarine;
+}
+/*主体标题内容*/
+#banner .content{
+    min-height: 50px;
+    font-size: 16px;
+}
+
+/*表格*/
+thead{
+    height: 36px;
+    line-height: 36px;
+    background-color: #FAFAFA;
+}
+tbody{
+    height: 36px;
+    line-height: 36px;
+}
+td{
+    margin: 0;
+    padding: 0;
+    width: 150px;
+    text-align: center;
+}

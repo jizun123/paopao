@@ -1,0 +1,51 @@
+/* 全局样式 */
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    background-color: #f1f3f4;
+}
+/* 去掉内外边距 */
+ul,li,p,h1,h2,h3,h4,h5{
+    margin: 0;
+    padding: 0;
+}
+
+/*去掉超链接的下划线*/
+a,a:hover{
+    text-decoration: none;
+}
+
+/*去掉文本框默认的边框*/
+input{
+    border: none;
+}
+
+/*浮动相关类*/
+/*左浮动*/
+.lf{
+    float: left;
+}
+/*右浮动*/
+.rt{
+    float: right;
+}
+/*清除浮动*/
+.clear{
+    clear: both;
+}
+
+/*隐藏类*/
+.hide{
+    display: none;
+}
+
+/*样式居中*/
+.center{
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.active{
+    border-bottom: 2px solid red;
+}

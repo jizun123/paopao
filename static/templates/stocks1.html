@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>泡泡金融-股票</title>
+    <link rel="stylesheet" href="../static/css/main_index.css">
+    <link rel="stylesheet" href="../static/css/cart.css"/>
+    <link rel="stylesheet" href="../static/css/layui.css" media="all">
+    <link rel="stylesheet" href="../static/css/header.css"/>
+    <link rel="icon" href="../static/images/index/py.ico">
+    <script src="../static/js/header.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="../static/js/layui.js" ></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    </script>
+    <script src="../static/js/index.js"></script>
+
+</head>
+
+<body>
+<header id="header"></header>
+<div style=";
+    padding: 7px 0;
+    width: 90%;
+    margin: 0 auto;
+    ">
+<div id="button_div" style="margin-top: 30px;margin-left: 70px;">
+    <button id="select_btn" class="button_blue">加自选</button>
+</div>
+<table id="box-table-a" summary="Employee Pay Sheet">
+    <tbody id="box-table-a-tbody">
+    </tbody>
+</table>
+<div id="page" class="page_div"></div>
+</div>
+<script src="../static/js/index.js"></script>
+<script src="../static/js/cart.js"></script>
+<script src="../static/js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="../static/js/pageMe.js"></script>
+</body>
+
+<script>
+    $(function () {
+        //为button加入点击事件
+        $("#button_div").on("click", "#select_btn", function () {
+            var get = $(".check");
+            var strIds = [];
+            for (i = 0; i < get.length; i++) {
+                if (get[i].checked) {
+                    strIds.push($("#box-table-a").find("tr").eq(i + 1).find("td").eq(2).text());
+                }
+            }
+            if (strIds.length <= 0) {
+                alert("请先选择股票。");
+                return
+            }
+            //将选中股票加入购物车中。
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "/v1/carts",
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({'data': strIds}),
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader('authorization', window.localStorage.getItem('paopao_token'))
+                },
+                success: function (response) {
+                    if (response.code == 200) {
+                        alert('添加成功,可在自选页面查看所选股票。')
+                    } else {
+                        alert(response.error)
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+
+        })
+        $.ajax({
+            type: "GET",
+            url: baseUrl + "/v1/financing/stock/total",
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    request_stocks(1)
+                    $("#page").paging({
+                        pageNum: 1, // 当前页面
+                        totalNum: Math.ceil(response.total / 10), // 总页码
+                        totalList: response.total, // 记录总数量
+                        callback: function (num) { //回调函数
+                            if (response.code == 200) {
+                                request_stocks(num)
+                            } else {
+                                alert(response.error)
+                            }
+
+                        }
+                    });
+                } else {
+                    alert(response.error)
+                }
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    });
+
+    function request_stocks(page_num) {
+        $.ajax({
+            type: "GET",
+            url: baseUrl + "/v1/financing/stock/GET/?page_num=" + page_num,
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    $("#box-table-a").html("")
+                    html_head = ' <thead>' +
+                        '    <tr>' +
+                        '            <th scope="col" style="width:30px"><input id="allboxs" onclick="allcheck()" type="checkbox"/></th>' +
+                        '            <th scope="col" style="width: 50px">序号</th>' +
+                        '            <th scope="col">股票代码</th>' +
+                        '            <th scope="col">股票简称</th>' +
+                        '            <th scope="col">现价(元)</th>' +
+                        '            <th scope="col">涨跌幅(%)</th>' +
+                        '            <th scope="col" class="wrap">概念解析</th>' +
+                        '            <th scope="col">所属概念数量(个)</th>' +
+                        '            <th scope="col">流通市值(元)</th>' +
+                        '            <th scope="col">所属同花顺行业</th>' +
+                        '        </tr>' +
+                        '    </thead>'
+                    $("#box-table-a").append(html_head)
+                    for (var i = 0; i < response.data.length; i++) {
+                        obj = response.data[i]
+                        html =
+                            ' <tr>' +
+                            '           <td><input  name="boxs" class="check" type="checkbox"/></td>' +
+                            '           <td>' + (obj.page_no + i + 1) + '</td>' +
+                            '           <td>' + obj.id + '</td>' +
+                            '           <td>' + obj.name + '</td>' +
+                            '           <td>' + obj.price + '</td>' +
+                            '           <td>' + obj.incre + '</td>' +
+                            '           <td class="wrap">' + obj.concept + '</td>' +
+                            '           <td>' + obj.concept_num + '</td>' +
+                            '           <td>' + obj.value + '</td>' +
+                            '           <td>' + obj.industry + '</td>' +
+                            ' </tr>'
+                        $("#box-table-a").append(html)
+                    }
+                } else {
+                    alert(response.error)
+                }
+
+            },
+            error: function (e) {
+                alert(e)
+            }
+        });
+    }
+
+</script>
+
+</html>
